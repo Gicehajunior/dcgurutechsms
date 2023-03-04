@@ -2,7 +2,7 @@
     "name": "dcgurutechsms/dcgurutechsms",
     "description": "A simple gurutech sms api helper in PHP for daphascomp consultants",
     "keywords": ["daphascomp", "dcgurutechsms", "gurutech", "gurutechsms-api"],
-    "homepage": "https://github.com/Gicehajunior/daphascompgurutechsms",
+    "homepage": "https://github.com/Gicehajunior/dcgurutechsms",
     "license": "MIT",
     "authors": [
        {
