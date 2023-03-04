@@ -11,6 +11,8 @@ class GuruTechBulkSmS {
     private $sender_id; 
     private $userid; 
     private $password; 
+    private $apikey;
+    private $apikeys;
     private $contacts;
     private $message;
     private $sendMethod;
@@ -25,11 +27,11 @@ class GuruTechBulkSmS {
     /**
      * GuruTechBulkSmS class constructor
      */
-    public function __construct($sender_id, $userid, $password, $apikey = "", $sendMethod = "quick")
+    public function __construct($sender_id, $userid, $password, $apikey = null, $sendMethod = "quick")
     {
         $this->sender_id = $sender_id;
         $this->userid = $userid;
-        $this->password = $password;
+        $this->password = $password; 
         $this->sendMethod = $sendMethod;
         $this->msgType = "text";
         $this->duplicatecheck = "true";
@@ -37,6 +39,9 @@ class GuruTechBulkSmS {
         $this->gurutech_messaging_endpoint = "https://portal.gurutechsms.co.ke/SMSApi/send";
         $this->gurutech_apikey_create_endpoint = "https://portal.gurutechsms.co.ke/SMSApi/apikey/create?userid=" . $this->userid . "&password=" . $this->password . "&output=" . $this->output . "";
         $this->gurutech_read_apikey_endpoint = "https://portal.gurutechsms.co.ke/SMSApi/apikey/read?userid=" . $this->userid . "&password=" . $this->password . "&output=" . $this->output . "";
+    
+        $this->apikeys = $this->read_apikey();
+        $this->apikey = isset($this->apikeys['apikey']) ? $this->apikeys['apikey'] : $apikey; 
     }
 
     /**
@@ -147,8 +152,8 @@ class GuruTechBulkSmS {
      */
     public function send($message, $contacts = []) {
         $this->message = $message;
-        $this->contacts = implode(",", $contacts); 
-        
+        $this->contacts = implode(",", $contacts);  
+
         $curl = curl_init();
         
         curl_setopt_array($curl, array(
@@ -165,7 +170,7 @@ class GuruTechBulkSmS {
                 'Content-Type: application/x-www-form-urlencoded',
                 'Access-Control-Allow-Origin: *',
                 'Accept-Language: *', 
-                "apikey: somerandomuniquekey",
+                "apikey: " . $this->apikey,
                 "Cache-Control: no-cache", 
             ),
         ));
